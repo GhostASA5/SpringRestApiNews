@@ -1,4 +1,4 @@
-package com.example.SpringRestAPI.web.controllers;
+package com.example.SpringRestAPI.web.controllers.exception;
 
 import com.example.SpringRestAPI.exceptions.EntityNotFoundException;
 import com.example.SpringRestAPI.web.dto.errors.ErrorResponse;

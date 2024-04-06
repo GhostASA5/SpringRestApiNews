@@ -5,6 +5,7 @@ import com.example.SpringRestAPI.mapper.NewsMapper;
 import com.example.SpringRestAPI.services.NewsCategoryService;
 import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.web.dto.news.NewsRequest;
+import com.example.SpringRestAPI.web.dto.news.NewsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class NewsMapperDelegate implements NewsMapper {
@@ -31,5 +32,14 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         News news = newsRequestToNews(request);
         news.setId(newsId);
         return news;
+    }
+
+    @Override
+    public NewsResponse newsToResponse(News news) {
+        NewsResponse newsResponse = new NewsResponse();
+        newsResponse.setId(news.getId());
+        newsResponse.setDescription(news.getDescription());
+        newsResponse.setCommentsCount(news.getComments().size());
+        return newsResponse;
     }
 }

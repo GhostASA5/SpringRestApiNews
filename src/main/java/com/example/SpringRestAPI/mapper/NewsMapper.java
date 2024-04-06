@@ -2,6 +2,7 @@ package com.example.SpringRestAPI.mapper;
 
 import com.example.SpringRestAPI.domain.News;
 import com.example.SpringRestAPI.mapper.delegates.NewsMapperDelegate;
+import com.example.SpringRestAPI.web.dto.news.NewsByIdResponse;
 import com.example.SpringRestAPI.web.dto.news.NewsListResponse;
 import com.example.SpringRestAPI.web.dto.news.NewsRequest;
 import com.example.SpringRestAPI.web.dto.news.NewsResponse;
@@ -21,6 +22,8 @@ public interface NewsMapper {
 
     @Mapping(source = "newsId", target = "id")
     News newsRequestToNews(Long newsId, NewsRequest request);
+
+    NewsByIdResponse newsByIdToResponse(News news);
 
     NewsResponse newsToResponse(News news);
 

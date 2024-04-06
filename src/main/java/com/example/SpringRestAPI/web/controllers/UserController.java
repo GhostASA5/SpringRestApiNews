@@ -6,6 +6,7 @@ import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.web.dto.user.UserListResponse;
 import com.example.SpringRestAPI.web.dto.user.UserRequest;
 import com.example.SpringRestAPI.web.dto.user.UserResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +33,13 @@ public class UserController {
     }
 
     @PostMapping
-    private ResponseEntity<UserResponse> create(@RequestBody UserRequest request){
+    private ResponseEntity<UserResponse> create(@RequestBody @Valid UserRequest request){
         User newUser = userService.save(userMapper.userRequestToUser(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.userToResponse(newUser));
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody UserRequest request){
+    private ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserRequest request){
         User updatedUser = userService.update(userMapper.userRequestToUser(id, request));
         return ResponseEntity.ok(userMapper.userToResponse(updatedUser));
     }

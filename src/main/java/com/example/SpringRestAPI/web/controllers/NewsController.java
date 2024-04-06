@@ -3,9 +3,10 @@ package com.example.SpringRestAPI.web.controllers;
 import com.example.SpringRestAPI.domain.News;
 import com.example.SpringRestAPI.mapper.NewsMapper;
 import com.example.SpringRestAPI.services.NewsService;
+import com.example.SpringRestAPI.web.dto.news.NewsByIdResponse;
 import com.example.SpringRestAPI.web.dto.news.NewsListResponse;
 import com.example.SpringRestAPI.web.dto.news.NewsRequest;
-import com.example.SpringRestAPI.web.dto.news.NewsResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,20 +26,20 @@ public class NewsController {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<NewsResponse> findById(@PathVariable Long id){
-        return ResponseEntity.ok(newsMapper.newsToResponse(newsService.findById(id)));
+    private ResponseEntity<NewsByIdResponse> findById(@PathVariable Long id){
+        return ResponseEntity.ok(newsMapper.newsByIdToResponse(newsService.findById(id)));
     }
 
     @PostMapping
-    private ResponseEntity<NewsResponse> create(@RequestBody NewsRequest request){
+    private ResponseEntity<NewsByIdResponse> create(@RequestBody @Valid NewsRequest request){
         News news = newsService.save(newsMapper.newsRequestToNews(request));
-        return ResponseEntity.status(HttpStatus.CREATED).body(newsMapper.newsToResponse(news));
+        return ResponseEntity.status(HttpStatus.CREATED).body(newsMapper.newsByIdToResponse(news));
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<NewsResponse> update(@PathVariable Long id, @RequestBody NewsRequest request){
+    private ResponseEntity<NewsByIdResponse> update(@PathVariable Long id, @RequestBody @Valid NewsRequest request){
         News news = newsService.update(newsMapper.newsRequestToNews(id, request));
-        return ResponseEntity.ok(newsMapper.newsToResponse(news));
+        return ResponseEntity.ok(newsMapper.newsByIdToResponse(news));
     }
 
     @DeleteMapping("/{id}")

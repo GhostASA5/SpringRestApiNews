@@ -27,5 +27,13 @@ public class News {
     @OneToMany(mappedBy = "news", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", user='" + user.getName() + '\'' +
+                '}';
+    }
 
 }

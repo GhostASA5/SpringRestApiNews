@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment save(Comment comment) {
-        News excitedNews = newsService.findById(comment.getId());
+        News excitedNews = newsService.findById(comment.getNews().getId());
         comment.setNews(excitedNews);
         return commentRepository.save(comment);
     }

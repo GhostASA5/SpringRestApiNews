@@ -6,6 +6,7 @@ import com.example.SpringRestAPI.services.CommentService;
 import com.example.SpringRestAPI.web.dto.comment.CommentListResponse;
 import com.example.SpringRestAPI.web.dto.comment.CommentRequest;
 import com.example.SpringRestAPI.web.dto.comment.CommentResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +31,13 @@ public class CommentController {
     }
 
     @PostMapping()
-    private ResponseEntity<CommentResponse> create(@RequestBody CommentRequest request){
+    private ResponseEntity<CommentResponse> create(@RequestBody @Valid CommentRequest request){
         Comment comment = commentService.save(commentMapper.commentRequestToComment(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(commentMapper.commentToResponse(comment));
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<CommentResponse> update(@PathVariable Long id, @RequestBody CommentRequest request){
+    private ResponseEntity<CommentResponse> update(@PathVariable Long id, @RequestBody @Valid CommentRequest request){
         Comment comment = commentService.update(commentMapper.commentRequestToComment(id, request));
         return ResponseEntity.ok(commentMapper.commentToResponse(comment));
     }

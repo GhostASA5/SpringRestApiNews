@@ -6,16 +6,13 @@ import com.example.SpringRestAPI.services.NewsService;
 import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.web.dto.comment.CommentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 public abstract class CommentMapperDelegate implements CommentMapper {
 
-    @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
 
     @Autowired
-    @Qualifier("newsServiceImpl")
     private NewsService newsService;
 
 
