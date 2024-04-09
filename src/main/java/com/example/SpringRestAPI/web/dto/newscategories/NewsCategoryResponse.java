@@ -1,7 +1,7 @@
 package com.example.SpringRestAPI.web.dto.newscategories;
 
 
-import com.example.SpringRestAPI.web.dto.news.NewsByIdResponse;
+import com.example.SpringRestAPI.web.dto.news.NewsResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class NewsCategoryResponse {
 
     private String category;
 
-    private List<NewsByIdResponse> news = new ArrayList<>();
+    private List<NewsResponse> news = new ArrayList<>();
 
 
 }

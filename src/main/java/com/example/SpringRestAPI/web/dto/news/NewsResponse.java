@@ -9,5 +9,9 @@ public class NewsResponse {
 
     private String description;
 
+    private String newsCategory;
+
+    private String userName;
+
     private Integer commentsCount;
 }

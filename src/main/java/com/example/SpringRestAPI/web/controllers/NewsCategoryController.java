@@ -20,9 +20,9 @@ public class NewsCategoryController {
     private final NewsCategoryService newsCategoryService;
     private final NewsCategoryMapper categoryMapper;
 
-    @GetMapping
-    private ResponseEntity<NewsCategoryListResponse> findAll(){
-        return ResponseEntity.ok(categoryMapper.categoryListToResponseList(newsCategoryService.findAll()));
+    @GetMapping("/{pageNumber}/{pageSize}")
+    private ResponseEntity<NewsCategoryListResponse> findAll(@PathVariable Integer pageNumber, @PathVariable Integer pageSize){
+        return ResponseEntity.ok(categoryMapper.categoryListToResponseList(newsCategoryService.findAll(pageNumber, pageSize)));
     }
 
     @GetMapping("/{id}")

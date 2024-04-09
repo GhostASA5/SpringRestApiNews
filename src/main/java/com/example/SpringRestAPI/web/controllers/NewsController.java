@@ -4,6 +4,7 @@ import com.example.SpringRestAPI.domain.News;
 import com.example.SpringRestAPI.mapper.NewsMapper;
 import com.example.SpringRestAPI.services.NewsService;
 import com.example.SpringRestAPI.web.dto.news.NewsByIdResponse;
+import com.example.SpringRestAPI.web.dto.news.NewsFilterRequest;
 import com.example.SpringRestAPI.web.dto.news.NewsListResponse;
 import com.example.SpringRestAPI.web.dto.news.NewsRequest;
 import jakarta.validation.Valid;
@@ -20,9 +21,17 @@ public class NewsController {
     private final NewsService newsService;
     private final NewsMapper newsMapper;
 
-    @GetMapping
-    private ResponseEntity<NewsListResponse> findAll(){
-        return ResponseEntity.ok(newsMapper.newsListToResponseList(newsService.findAll()));
+    @GetMapping("/filter/{pageNumber}/{pageSize}")
+    private ResponseEntity<NewsListResponse> filterBy(@PathVariable Integer pageNumber,
+                                                      @PathVariable Integer pageSize,
+                                                      @RequestBody NewsFilterRequest filterRequest){
+        return ResponseEntity.ok(newsMapper.newsListToResponseList(newsService
+                .filterBy(filterRequest, pageNumber, pageSize)));
+    }
+
+    @GetMapping("/{pageNumber}/{pageSize}")
+    private ResponseEntity<NewsListResponse> findAll(@PathVariable Integer pageNumber, @PathVariable Integer pageSize){
+        return ResponseEntity.ok(newsMapper.newsListToResponseList(newsService.findAll(pageNumber, pageSize)));
     }
 
     @GetMapping("/{id}")

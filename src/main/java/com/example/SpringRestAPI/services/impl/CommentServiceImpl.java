@@ -1,5 +1,6 @@
 package com.example.SpringRestAPI.services.impl;
 
+import com.example.SpringRestAPI.aop.AuthorVerification;
 import com.example.SpringRestAPI.domain.Comment;
 import com.example.SpringRestAPI.domain.News;
 import com.example.SpringRestAPI.exceptions.EntityNotFoundException;
@@ -40,6 +41,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @AuthorVerification
     public Comment update(Comment comment) {
         Comment excitedComment = findById(comment.getId());
         News excitedNews = newsService.findById(comment.getNews().getId());
@@ -50,6 +52,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @AuthorVerification
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
     }

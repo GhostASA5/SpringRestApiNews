@@ -6,6 +6,7 @@ import com.example.SpringRestAPI.repositories.UserRepository;
 import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -19,8 +20,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAll(Integer page, Integer size) {
+        return userRepository.findAll(PageRequest.of(page, size)).getContent();
     }
 
     @Override

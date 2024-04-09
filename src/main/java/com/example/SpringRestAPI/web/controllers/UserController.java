@@ -22,9 +22,9 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-    @GetMapping
-    private ResponseEntity<UserListResponse> findAll(){
-        return ResponseEntity.ok(userMapper.userListToResponseList(userService.findAll()));
+    @GetMapping("/{pageNumber}/{pageSize}")
+    private ResponseEntity<UserListResponse> findAll(@PathVariable Integer pageNumber, @PathVariable Integer pageSize){
+        return ResponseEntity.ok(userMapper.userListToResponseList(userService.findAll(pageNumber, pageSize)));
     }
 
     @GetMapping("/{id}")

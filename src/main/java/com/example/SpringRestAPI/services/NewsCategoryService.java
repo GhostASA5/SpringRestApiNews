@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NewsCategoryService {
 
-    List<NewsCategory> findAll();
+    List<NewsCategory> findAll(Integer page, Integer size);
 
     NewsCategory findById(Long id);
 

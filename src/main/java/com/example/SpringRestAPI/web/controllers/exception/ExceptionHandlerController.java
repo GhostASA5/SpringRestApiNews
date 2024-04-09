@@ -1,6 +1,7 @@
 package com.example.SpringRestAPI.web.controllers.exception;
 
 import com.example.SpringRestAPI.exceptions.EntityNotFoundException;
+import com.example.SpringRestAPI.exceptions.VerificationException;
 import com.example.SpringRestAPI.web.dto.errors.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -19,6 +20,12 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> notFound(EntityNotFoundException ex) {
+        log.error("Ошибка при попытке получить сущность", ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(VerificationException.class)
+    public ResponseEntity<ErrorResponse> failedVerify(VerificationException ex) {
         log.error("Ошибка при попытке получить сущность", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getLocalizedMessage()));
     }
