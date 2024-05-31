@@ -40,7 +40,7 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         newsResponse.setId(news.getId());
         newsResponse.setNewsCategory(news.getCategory().getCategory());
         newsResponse.setDescription(news.getDescription());
-        newsResponse.setUserName(news.getUser().getName());
+        newsResponse.setUserName(news.getUser().getUsername());
         newsResponse.setCommentsCount(news.getComments().size());
         return newsResponse;
     }

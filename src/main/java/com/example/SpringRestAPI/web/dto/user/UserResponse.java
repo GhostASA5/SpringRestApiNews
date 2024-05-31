@@ -1,7 +1,7 @@
 package com.example.SpringRestAPI.web.dto.user;
 
+import com.example.SpringRestAPI.domain.Role;
 import com.example.SpringRestAPI.web.dto.comment.CommentResponse;
-import com.example.SpringRestAPI.web.dto.news.NewsByIdResponse;
 import com.example.SpringRestAPI.web.dto.news.NewsResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +17,11 @@ public class UserResponse {
 
     private Long id;
 
-    private String name;
+    private String username;
+
+    private String password;
+
+    //private List<Role> roles = new ArrayList<>();
 
     private List<NewsResponse> news = new ArrayList<>();
 

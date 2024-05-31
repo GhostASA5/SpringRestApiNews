@@ -1,5 +1,7 @@
 package com.example.SpringRestAPI.services.impl;
 
+import com.example.SpringRestAPI.aop.AuthorVerification;
+import com.example.SpringRestAPI.domain.Role;
 import com.example.SpringRestAPI.domain.User;
 import com.example.SpringRestAPI.exceptions.EntityNotFoundException;
 import com.example.SpringRestAPI.repositories.UserRepository;
@@ -7,9 +9,11 @@ import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +22,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> findAll(Integer page, Integer size) {
@@ -25,6 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @AuthorVerification
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -32,8 +38,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        MessageFormat.format("Пользователь {0} не найден", username)
+                ));
+    }
+
+    @Override
+    public User createNewAccount(User user, Role role) {
+        user.setRoles(Collections.singletonList(role));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        role.setUser(user);
+
+        return userRepository.saveAndFlush(user);
     }
 
     @Override

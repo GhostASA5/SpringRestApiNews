@@ -32,7 +32,7 @@ public class News {
         return "News{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", user='" + user.getName() + '\'' +
+                ", user='" + user.getUsername() + '\'' +
                 '}';
     }
 
