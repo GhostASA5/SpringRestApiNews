@@ -3,7 +3,8 @@ package com.example.SpringRestAPI.mapper;
 import com.example.SpringRestAPI.domain.Comment;
 import com.example.SpringRestAPI.mapper.delegates.CommentMapperDelegate;
 import com.example.SpringRestAPI.web.dto.comment.CommentListResponse;
-import com.example.SpringRestAPI.web.dto.comment.CommentRequest;
+import com.example.SpringRestAPI.web.dto.comment.CommentRequestCreate;
+import com.example.SpringRestAPI.web.dto.comment.CommentRequestUpdate;
 import com.example.SpringRestAPI.web.dto.comment.CommentResponse;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
@@ -17,10 +18,10 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, NewsMapper.class})
 public interface CommentMapper {
 
-    Comment commentRequestToComment(CommentRequest request);
+    Comment commentRequestToComment(CommentRequestCreate request);
 
     @Mapping(source = "commentId", target = "id")
-    Comment commentRequestToComment(Long commentId, CommentRequest request);
+    Comment commentRequestUpdateToComment(Long commentId, CommentRequestUpdate request);
 
     CommentResponse commentToResponse(Comment comment);
 

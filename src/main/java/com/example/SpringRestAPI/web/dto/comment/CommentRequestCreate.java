@@ -4,10 +4,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class CommentRequest {
+@NoArgsConstructor
+public class CommentRequestCreate {
 
     @NotBlank(message = "Комментарий не должен быть пустым.")
     private String comment;

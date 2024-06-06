@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,14 +48,16 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<NewsByIdResponse> update(@PathVariable Long id, @RequestBody @Valid NewsRequest request){
-        News news = newsService.update(newsMapper.newsRequestToNews(id, request));
+    private ResponseEntity<NewsByIdResponse> update(@PathVariable Long id,
+                                                    @RequestBody @Valid NewsRequest request,
+                                                    @AuthenticationPrincipal UserDetails userDetails){
+        News news = newsService.update(newsMapper.newsRequestToNews(id, request), userDetails.getUsername());
         return ResponseEntity.ok(newsMapper.newsByIdToResponse(news));
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<Void> delete(@PathVariable Long id){
-        newsService.deleteById(id);
+    private ResponseEntity<Void> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails){
+        newsService.deleteById(id, userDetails.getUsername());
         return ResponseEntity.noContent().build();
     }
 }

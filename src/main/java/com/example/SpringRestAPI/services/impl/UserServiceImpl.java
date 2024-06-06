@@ -1,6 +1,5 @@
 package com.example.SpringRestAPI.services.impl;
 
-import com.example.SpringRestAPI.aop.AuthorVerification;
 import com.example.SpringRestAPI.domain.Role;
 import com.example.SpringRestAPI.domain.User;
 import com.example.SpringRestAPI.exceptions.EntityNotFoundException;
@@ -30,7 +29,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @AuthorVerification
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(

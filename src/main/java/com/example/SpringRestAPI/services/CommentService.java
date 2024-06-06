@@ -12,8 +12,8 @@ public interface CommentService {
 
     Comment save(Comment comment);
 
-    Comment update(Comment comment);
+    Comment update(Comment comment, String userName);
 
-    void deleteById(Long id);
+    void deleteById(Long id, String userName);
 
 }

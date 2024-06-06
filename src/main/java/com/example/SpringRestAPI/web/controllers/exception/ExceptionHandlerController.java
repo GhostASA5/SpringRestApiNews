@@ -27,7 +27,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(VerificationException.class)
     public ResponseEntity<ErrorResponse> failedVerify(VerificationException ex) {
         log.error("Ошибка при попытке получить сущность", ex);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getLocalizedMessage()));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(ex.getLocalizedMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

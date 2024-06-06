@@ -1,13 +1,15 @@
 package com.example.SpringRestAPI.services.impl;
 
-import com.example.SpringRestAPI.aop.AuthorVerification;
 import com.example.SpringRestAPI.domain.News;
 import com.example.SpringRestAPI.domain.NewsCategory;
+import com.example.SpringRestAPI.domain.User;
 import com.example.SpringRestAPI.exceptions.EntityNotFoundException;
+import com.example.SpringRestAPI.exceptions.VerificationException;
 import com.example.SpringRestAPI.repositories.NewsRepository;
 import com.example.SpringRestAPI.repositories.NewsSpecification;
 import com.example.SpringRestAPI.services.NewsCategoryService;
 import com.example.SpringRestAPI.services.NewsService;
+import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.utils.BeanUtils;
 import com.example.SpringRestAPI.web.dto.news.NewsFilterRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,13 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class NewsServiceImpl implements NewsService {
 
+    private final UserService userService;
     private final NewsRepository newsRepository;
     private final NewsCategoryService categoryService;
 
@@ -44,9 +48,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @AuthorVerification
-    public News update(News news) {
+    public News update(News news, String userName) {
+        User user = userService.findByUsername(userName);
         News excitedNews = findById(news.getId());
+
+        if (!Objects.equals(excitedNews.getUser().getId(), user.getId())) {
+            throw new VerificationException(MessageFormat.format("Новость {0} вам не принадлежит. Вы можете изменять только свои новости.",
+                    excitedNews.getDescription()));
+        }
         NewsCategory excitedCategory = categoryService.findById(news.getCategory().getId());
         BeanUtils.copyNonNullProperties(news, excitedNews);
         excitedNews.setCategory(excitedCategory);
@@ -54,8 +63,14 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @AuthorVerification
-    public void deleteById(Long id) {
+    public void deleteById(Long id, String userName) {
+        News excitedNews = findById(id);
+        User user = userService.findByUsername(userName);
+        if (user.hasOnlyRoleUser() && !Objects.equals(excitedNews.getUser().getId(), user.getId())){
+            throw new VerificationException(MessageFormat.format("Новость {0} вам не принадлежит. Вы можете удалять только свои новости.",
+                    excitedNews.getDescription()));
+        }
+
         newsRepository.deleteById(id);
     }
 

@@ -13,9 +13,9 @@ public interface NewsService {
 
     News save(News news);
 
-    News update(News news);
+    News update(News news, String userName);
 
-    void deleteById(Long id);
+    void deleteById(Long id, String userName);
 
     List<News> filterBy(NewsFilterRequest request, Integer page, Integer size);
 }

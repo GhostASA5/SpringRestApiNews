@@ -2,9 +2,11 @@ package com.example.SpringRestAPI.mapper.delegates;
 
 import com.example.SpringRestAPI.domain.Comment;
 import com.example.SpringRestAPI.mapper.CommentMapper;
+import com.example.SpringRestAPI.services.CommentService;
 import com.example.SpringRestAPI.services.NewsService;
 import com.example.SpringRestAPI.services.UserService;
-import com.example.SpringRestAPI.web.dto.comment.CommentRequest;
+import com.example.SpringRestAPI.web.dto.comment.CommentRequestCreate;
+import com.example.SpringRestAPI.web.dto.comment.CommentRequestUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class CommentMapperDelegate implements CommentMapper {
@@ -14,10 +16,12 @@ public abstract class CommentMapperDelegate implements CommentMapper {
 
     @Autowired
     private NewsService newsService;
+    @Autowired
+    private CommentService commentService;
 
 
     @Override
-    public Comment commentRequestToComment(CommentRequest request) {
+    public Comment commentRequestToComment(CommentRequestCreate request) {
         Comment comment = new Comment();
         comment.setComment(request.getComment());
         comment.setUser(userService.findById(request.getUserId()));
@@ -26,9 +30,9 @@ public abstract class CommentMapperDelegate implements CommentMapper {
     }
 
     @Override
-    public Comment commentRequestToComment(Long commentId, CommentRequest request) {
-        Comment comment = commentRequestToComment(request);
-        comment.setId(commentId);
+    public Comment commentRequestUpdateToComment(Long commentId, CommentRequestUpdate request) {
+        Comment comment = commentService.findById(commentId);
+        comment.setComment(request.getComment());
         return comment;
     }
 }

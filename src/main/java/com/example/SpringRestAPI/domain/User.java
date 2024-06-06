@@ -42,4 +42,9 @@ public class User {
                 '}';
     }
 
+    public boolean hasOnlyRoleUser(){
+        return this.getRoles().size() == 1 && this.getRoles().stream()
+                .anyMatch(role -> role.getRole().equals(RoleType.ROLE_USER));
+    }
+
 }

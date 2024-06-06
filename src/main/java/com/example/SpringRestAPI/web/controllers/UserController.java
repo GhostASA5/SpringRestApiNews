@@ -1,5 +1,6 @@
 package com.example.SpringRestAPI.web.controllers;
 
+import com.example.SpringRestAPI.aop.AuthorVerification;
 import com.example.SpringRestAPI.domain.Role;
 import com.example.SpringRestAPI.domain.RoleType;
 import com.example.SpringRestAPI.domain.User;
@@ -7,6 +8,7 @@ import com.example.SpringRestAPI.mapper.UserMapper;
 import com.example.SpringRestAPI.services.UserService;
 import com.example.SpringRestAPI.web.dto.user.UserListResponse;
 import com.example.SpringRestAPI.web.dto.user.UserRequest;
+import com.example.SpringRestAPI.web.dto.user.UserRequestUpdate;
 import com.example.SpringRestAPI.web.dto.user.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @AuthorVerification
     public ResponseEntity<UserResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok(userMapper.userToResponse(userService.findById(id)));
     }
@@ -44,12 +47,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserRequest request){
+    @AuthorVerification
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody @Valid UserRequestUpdate request){
         User updatedUser = userService.update(userMapper.userRequestToUser(id, request));
         return ResponseEntity.ok(userMapper.userToResponse(updatedUser));
     }
 
     @DeleteMapping("{id}")
+    @AuthorVerification
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
